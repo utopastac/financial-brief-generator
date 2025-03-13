@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- Previous head and style sections remain the same -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -103,62 +104,99 @@
     </div>
 
     <script>
-        const companies = ["TechVision Analytics", "Future Metrics Global", "DataSense Research", "Z-Gen Insights", 
-                          "Quantum Foresight Lab", "Meta-Trend Dynamics", "Hyperspace Analytics", "Zeitgeist Research"];
+        const companies = [
+            // Professional
+            "Market Insights Global",
+            "Strategic Analytics Partners",
+            "Innovation Research Group",
+            "Digital Trends Institute",
+            // Moderate
+            "TechVision Analytics",
+            "Future Metrics Global",
+            "DataSense Research",
+            "Z-Gen Insights",
+            // Extreme
+            "Quantum Foresight Lab",
+            "Meta-Trend Dynamics",
+            "Hyperspace Analytics",
+            "Zeitgeist Research"
+        ];
+
         const years = [2024, 2025, 2026];
         
-        const titlePrefixes = [
+        // Professional title elements
+        const professionalPrefixes = [
+            "Project",
+            "Initiative",
+            "Strategy",
+            "Innovation",
+            "Development"
+        ];
+        
+        const professionalSuffixes = [
+            "Enhancement",
+            "Integration",
+            "Implementation",
+            "Development",
+            "Solution"
+        ];
+        
+        const professionalBuzzwords = [
+            "User-Centered",
+            "Data-Driven",
+            "AI-Powered",
+            "Cloud-Based",
+            "Smart-Enabled"
+        ];
+
+        // Moderate title elements
+        const moderatePrefixes = [
+            "Project Next-Gen",
+            "Future Initiative",
+            "Digital Evolution",
+            "Innovation X",
+            "Smart Protocol"
+        ];
+        
+        const moderateSuffixes = [
+            "Revolution",
+            "Transformation",
+            "Breakthrough",
+            "Innovation",
+            "Framework"
+        ];
+        
+        const moderateBuzzwords = [
+            "AI-Enhanced",
+            "Neural-Powered",
+            "Blockchain-Enabled",
+            "Cloud-Optimized",
+            "Smart-Connected"
+        ];
+
+        // Extreme title elements
+        const extremePrefixes = [
             "Project Quantum",
             "Operation Cosmic",
             "Initiative Hyperspace",
-            "The Transcendent",
             "The Ultra-Dimensional",
-            "The Meta-Universal",
-            "Project Infinity",
-            "Operation Paradigm",
-            "The Revolutionary",
-            "The Quantum-Shifted",
-            "The Metaphysical",
-            "The Cybernetic",
-            "Operation Singularity",
-            "Project Nexus",
-            "The Hyper-Evolved"
+            "The Meta-Universal"
         ];
         
-        const titleSuffixes = [
-            "Paradigm Shift",
+        const extremeSuffixes = [
             "Reality Matrix",
             "Consciousness Expansion",
             "Digital Transcendence",
             "Neural Revolution",
-            "Quantum Leap",
-            "Mind-Space Convergence",
-            "Reality Disruption",
-            "Dimensional Breakthrough",
-            "Future Synthesis",
-            "Evolutionary Catalyst",
-            "Consciousness Matrix",
-            "Reality Override",
-            "Paradigm Breach",
-            "Meta-Verse Integration"
+            "Mind-Space Convergence"
         ];
         
-        const buzzwords = [
+        const extremeBuzzwords = [
             "Quantum-Synchronized",
             "Neural-Enhanced",
-            "Bio-Digital",
             "Meta-Conscious",
-            "Hyper-Realized",
             "Trans-Dimensional",
-            "Ultra-Integrated",
-            "Cyber-Organic",
-            "Quantum-Entangled",
-            "Neo-Cognitive",
-            "Multi-Dimensional",
-            "Consciousness-Amplified",
-            "Reality-Augmented",
-            "Time-Transcendent",
-            "Space-Warped"
+            "Consciousness-Amplified"
         ];
 
         function getRandomElement(arr) {
@@ -169,20 +207,31 @@
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
-        function generateTitle(word) {
-            const prefix = getRandomElement(titlePrefixes);
-            const suffix = getRandomElement(titleSuffixes);
-            const buzzword = getRandomElement(buzzwords);
+        function generateTitle(word, style) {
+            let prefix, suffix, buzzword;
+            
+            switch(style) {
+                case 'professional':
+                    prefix = getRandomElement(professionalPrefixes);
+                    suffix = getRandomElement(professionalSuffixes);
+                    buzzword = getRandomElement(professionalBuzzwords);
+                    break;
+                case 'moderate':
+                    prefix = getRandomElement(moderatePrefixes);
+                    suffix = getRandomElement(moderateSuffixes);
+                    buzzword = getRandomElement(moderateBuzzwords);
+                    break;
+                case 'extreme':
+                    prefix = getRandomElement(extremePrefixes);
+                    suffix = getRandomElement(extremeSuffixes);
+                    buzzword = getRandomElement(extremeBuzzwords);
+                    break;
+            }
             
             const titleTemplates = [
-                `# ${prefix} ${word.toUpperCase()}: Unleashing the ${buzzword} ${suffix}`,
-                `# The ${buzzword} ${word.toUpperCase()} Protocol: A ${suffix} for the Digital Age`,
-                `# ${prefix} ${word.toUpperCase()}: Pioneering the ${buzzword} Financial ${suffix}`,
-                `# Beyond ${word.toUpperCase()}: The ${buzzword} ${suffix} that Will Reshape Money`,
-                `# ${word.toUpperCase()} INFINITY: The ${buzzword} ${suffix} of Financial Evolution`,
-                `# The Great ${word.toUpperCase()} Convergence: A ${buzzword} ${suffix}`,
-                `# ${prefix} OMEGA-${word.toUpperCase()}: Transcending the ${buzzword} ${suffix}`,
-                `# ULTRA-${word.toUpperCase()}: The ${buzzword} Dawn of a New Financial ${suffix}`
+                `# ${prefix} ${word}: A ${buzzword} ${suffix}`,
+                `# The ${word} ${suffix}: ${buzzword} Financial Innovation`,
+                `# ${prefix} ${word}: Pioneering ${buzzword} Solutions`
             ];
             
             return getRandomElement(titleTemplates);
@@ -190,92 +239,115 @@
 
         function generateBrief(word) {
             const templates = [
-                `${generateTitle(word)}
+                // Professional template
+                `${generateTitle(word, 'professional')}
 
 ## Executive Summary
-Recent studies by ${getRandomElement(companies)} indicate that ${getRandomNumber(60, 95)}% of Gen Z users express strong emotional connections to ${word.toLowerCase()}-related content. This presents an unprecedented opportunity for our Financial App to pioneer the world's first ${word.toLowerCase()}-powered payment experience.
+${getRandomElement(companies)} has identified a significant opportunity to enhance our financial platform through ${word.toLowerCase()}-based innovation. Market analysis suggests strong user interest in integrating ${word.toLowerCase()}-related features into daily financial activities.
 
 ## Market Research
-Our proprietary survey of ${getRandomNumber(1000, 5000)} users revealed:
-- ${getRandomNumber(60, 95)}% would increase their app usage if it incorporated ${word.toLowerCase()} features
-- ${getRandomNumber(60, 95)}% would pay a premium for ${word.toLowerCase()}-enhanced transactions
-- An estimated $${getRandomNumber(50, 500)}M market opportunity by ${getRandomElement(years)}
+Our comprehensive study of ${getRandomNumber(500, 2000)} users revealed:
+- ${getRandomNumber(60, 85)}% expressed interest in ${word.toLowerCase()}-enhanced financial tools
+- ${getRandomNumber(40, 70)}% would consider premium features based on ${word.toLowerCase()} integration
+- Potential market value of $${getRandomNumber(10, 100)}M by ${getRandomElement(years)}
 
-## Proposed Solution: The ${word.charAt(0).toUpperCase() + word.slice(1)} Boost™
-Introducing a groundbreaking feature that transforms how users interact with money through the power of ${word.toLowerCase()}:
-1. AI-powered ${word.toLowerCase()} transaction categorization
-2. Neural ${word.toLowerCase()} payment predictions
-3. Quantum ${word.toLowerCase()} security protocols
+## Proposed Solution
+The ${word} Integration Platform will introduce:
+1. Smart ${word.toLowerCase()} analytics
+2. Automated ${word.toLowerCase()} insights
+3. Integrated ${word.toLowerCase()} reporting
 
-## User Testimonials
-"I never knew I needed ${word.toLowerCase()} in my payment app until this revolutionary feature made it possible!" - Sarah K., Early Beta Tester
-"The ${word.charAt(0).toUpperCase() + word.slice(1)} Boost feature has literally changed my life." - Marcus T., Finance Influencer
+## Implementation Plan
+- Phase 1: Initial ${word.toLowerCase()} feature development
+- Phase 2: Beta testing and user feedback
+- Phase 3: Full platform integration
 
-## Implementation Timeline
-- Phase 1: Deploy ${word.toLowerCase()} sensors across our server infrastructure
-- Phase 2: Initialize the quantum ${word.toLowerCase()} matrix
-- Phase 3: Roll out to top ${getRandomNumber(1, 5)}% of power users
+## Resource Requirements
+- Development team: ${getRandomNumber(3, 8)} engineers
+- Timeline: ${getRandomNumber(6, 18)} months
+- Initial investment: $${getRandomNumber(1, 5)}M
 
-## Risk Assessment
-While our patented ${word.charAt(0).toUpperCase() + word.slice(1)}-Chain™ technology is revolutionary, we must acknowledge that ${getRandomNumber(60, 95)}% of users may experience temporary levitation during high-volume transactions.
-
-## Investment Required
-- $${getRandomNumber(2, 15)}M for initial ${word.toLowerCase()} infrastructure
-- $${getRandomNumber(1, 5)}M for ${word.toLowerCase()} compliance certification
-- $${getRandomNumber(3, 8)}M for quantum ${word.toLowerCase()} specialists
-
-## Projected ROI
-Based on calculations by ${getRandomElement(companies)}, we project a ${getRandomNumber(300, 900)}% return on investment within the first ${getRandomNumber(12, 24)} months.
-
-## Conclusion
-The ${word.charAt(0).toUpperCase() + word.slice(1)} Integration Initiative represents a paradigm shift in digital payments. By leveraging the untapped power of ${word.toLowerCase()}, we will not just disrupt the market - we will transcend it.`,
-
-                `${generateTitle(word)}
-
-## Market Opportunity
-${getRandomElement(companies)} reports that ${getRandomNumber(60, 95)}% of millennials feel their payment apps lack sufficient ${word.toLowerCase()} integration. Our Financial App is uniquely positioned to fill this void.
-
-## The ${word.charAt(0).toUpperCase() + word.slice(1)} Revolution
-Our revolutionary ${word.charAt(0).toUpperCase() + word.slice(1)}-First™ approach will transform every transaction into a ${word.toLowerCase()}-enhanced experience, powered by our proprietary ${word.charAt(0).toUpperCase() + word.slice(1)}Core™ engine.
-
-## Feature Highlights
-1. ${word.charAt(0).toUpperCase() + word.slice(1)} Awareness Protocol (WAP)
-2. Bio-${word.toLowerCase()} payment verification
-3. Holographic ${word.toLowerCase()} receipts
-4. Quantum ${word.toLowerCase()} security layer
-
-## User Research
-In a blind study of ${getRandomNumber(500, 2000)} users:
-- ${getRandomNumber(60, 95)}% experienced immediate joy when exposed to ${word.toLowerCase()}-enhanced transactions
-- ${getRandomNumber(60, 95)}% reported feeling "more alive" during ${word.toLowerCase()} payments
-- ${getRandomNumber(60, 95)}% couldn't imagine banking without ${word.toLowerCase()} integration
-
-## Technical Implementation
-Our team of ${getRandomNumber(5, 20)} quantum ${word.toLowerCase()} engineers has developed a groundbreaking approach using:
-- Neural ${word.toLowerCase()} networks
-- Quantum ${word.toLowerCase()} entanglement
-- Blockchain ${word.toLowerCase()} verification
-
-## Market Projection
-By ${getRandomElement(years)}, we expect:
-- $${getRandomNumber(100, 999)}M in ${word.toLowerCase()}-generated revenue
-- ${getRandomNumber(1, 5)}M new users attracted by ${word.toLowerCase()} features
-- ${getRandomNumber(60, 95)}% market dominance in the ${word.toLowerCase()} payment space
-
-## Risk Mitigation
-While some users may experience temporary enlightenment during ${word.toLowerCase()}-enhanced transactions, our legal team assures us this is both temporary and beneficial.
+## Expected Outcomes
+- Enhanced user engagement
+- Increased transaction volume
+- Market differentiation through innovation
 
 ## Next Steps
-1. Initialize the ${word.toLowerCase()} matrices
-2. Deploy quantum ${word.toLowerCase()} sensors
-3. Begin user consciousness expansion program
+1. Detailed technical assessment
+2. User research validation
+3. Development roadmap finalization`,
 
-## Financial Projections
-- Investment required: $${getRandomNumber(10, 50)}M
-- Expected return: ${getRandomNumber(500, 1000)}x by ${getRandomElement(years)}
+                // Moderate template
+                `${generateTitle(word, 'moderate')}
+
+## Market Opportunity
+Recent analysis by ${getRandomElement(companies)} shows that ${getRandomNumber(60, 85)}% of users are seeking innovative ${word.toLowerCase()}-based financial solutions. Our platform is uniquely positioned to deliver this breakthrough technology.
+
+## The ${word} Innovation
+Our ${word}-First™ approach will transform financial interactions through:
+1. Advanced ${word.toLowerCase()} algorithms
+2. AI-powered ${word.toLowerCase()} insights
+3. Smart ${word.toLowerCase()} automation
+
+## User Impact Analysis
+Research with ${getRandomNumber(1000, 3000)} participants showed:
+- ${getRandomNumber(70, 90)}% reported improved financial awareness
+- ${getRandomNumber(60, 80)}% expressed strong interest in adoption
+- ${getRandomNumber(40, 60)}% would upgrade their current plan
+
+## Technical Framework
+Our innovation team has developed:
+- Neural ${word.toLowerCase()} processing
+- Smart ${word.toLowerCase()} analytics
+- Blockchain-secured ${word.toLowerCase()} data
+
+## Market Projections
+By ${getRandomElement(years)}:
+- $${getRandomNumber(50, 200)}M revenue potential
+- ${getRandomNumber(1, 3)}M new user acquisition
+- ${getRandomNumber(40, 70)}% market share in the ${word.toLowerCase()} space
+
+## Investment Strategy
+- R&D: $${getRandomNumber(2, 8)}M
+- Market Launch: $${getRandomNumber(1, 5)}M
+- Platform Integration: $${getRandomNumber(2, 6)}M
 
 ## Conclusion
-The future of payments is ${word.toLowerCase()}, and we will lead this revolution.`
+The ${word} Initiative represents a significant opportunity to revolutionize digital financial services.`,
+
+                // Extreme template
+                `${generateTitle(word, 'extreme')}
+
+## Executive Summary
+Revolutionary studies by ${getRandomElement(companies)} indicate that ${getRandomNumber(80, 99)}% of Gen Z users experience quantum resonance with ${word.toLowerCase()}-related content. We must harness this unprecedented metaphysical opportunity.
+
+## Quantum Market Research
+Our consciousness-enhanced survey of ${getRandomNumber(1000, 5000)} users revealed:
+- ${getRandomNumber(85, 99)}% achieved temporary enlightenment during ${word.toLowerCase()}-enhanced transactions
+- ${getRandomNumber(80, 95)}% reported spontaneous levitation while using ${word.toLowerCase()} features
+- A mind-bending $${getRandomNumber(300, 999)}M market opportunity by ${getRandomElement(years)}
+
+## The ${word} Transcendence Protocol™
+Our revolutionary ${word}-Consciousness™ engine will:
+1. Initialize quantum ${word.toLowerCase()} matrices
+2. Synchronize neural ${word.toLowerCase()} fields
+3. Manifest holographic ${word.toLowerCase()} interfaces
+
+## Metaphysical Implementation
+- Phase 1: Deploy consciousness ${word.toLowerCase()} sensors
+- Phase 2: Activate the quantum ${word.toLowerCase()} matrix
+- Phase 3: Transcend conventional reality
+
+## Quantum Investment Required
+- $${getRandomNumber(10, 50)}M for quantum ${word.toLowerCase()} infrastructure
+- $${getRandomNumber(5, 20)}M for consciousness ${word.toLowerCase()} certification
+- $${getRandomNumber(15, 40)}M for reality-bending specialists
+
+## Projected Consciousness ROI
+Based on quantum calculations by ${getRandomElement(companies)}, we project a ${getRandomNumber(900, 9999)}% return on investment across multiple dimensions.
+
+## Conclusion
+The future isn't just digital - it's quantum ${word.toLowerCase()}, and we will transcend all known financial paradigms.`
             ];
 
             return getRandomElement(templates);
