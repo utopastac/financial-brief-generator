@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- Previous head and style sections remain the same -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,6 +50,25 @@
         button:hover {
             background: #00B82B;
         }
+        .style-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .style-button {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .style-button.selected {
+            background: #00D632;
+            color: white;
+            border-color: #00D632;
+        }
         .brief-content {
             display: none;
         }
@@ -69,7 +87,7 @@
             border-bottom: 2px solid #eee;
             padding-bottom: 0.3em;
         }
-        .brief-content ul {
+        .brief-content ul, .brief-content ol {
             padding-left: 20px;
         }
         .brief-content li {
@@ -89,12 +107,32 @@
             display: none;
             margin-top: 30px;
         }
+        .style-description {
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Financial App Brief Generator</h1>
         <form class="input-form" id="briefForm">
+            <div class="style-selector">
+                <div>
+                    <button type="button" class="style-button selected" data-style="professional">Professional</button>
+                    <div class="style-description">Business-focused, realistic</div>
+                </div>
+                <div>
+                    <button type="button" class="style-button" data-style="moderate">Innovative</button>
+                    <div class="style-description">Modern tech, ambitious</div>
+                </div>
+                <div>
+                    <button type="button" class="style-button" data-style="extreme">Quantum</button>
+                    <div class="style-description">Reality-bending, outlandish</div>
+                </div>
+            </div>
             <input type="text" id="wordInput" placeholder="Enter a single word..." required>
             <button type="submit">Generate Brief</button>
         </form>
@@ -104,100 +142,142 @@
     </div>
 
     <script>
-        const companies = [
-            // Professional
-            "Market Insights Global",
-            "Strategic Analytics Partners",
-            "Innovation Research Group",
-            "Digital Trends Institute",
-            // Moderate
-            "TechVision Analytics",
-            "Future Metrics Global",
-            "DataSense Research",
-            "Z-Gen Insights",
-            // Extreme
-            "Quantum Foresight Lab",
-            "Meta-Trend Dynamics",
-            "Hyperspace Analytics",
-            "Zeitgeist Research"
-        ];
+        // Load all the data arrays from a separate file
+        const data = {
+            companies: {
+                professional: [
+                    "Market Insights Global",
+                    "Strategic Analytics Partners",
+                    "Innovation Research Group",
+                    "Digital Trends Institute",
+                    "Financial Technology Associates",
+                    "User Experience Lab",
+                    "Market Strategy Partners",
+                    "Digital Innovation Collective"
+                ],
+                moderate: [
+                    "TechVision Analytics",
+                    "Future Metrics Global",
+                    "DataSense Research",
+                    "Z-Gen Insights",
+                    "Digital Frontier Labs",
+                    "NextGen Research",
+                    "Innovation Dynamics",
+                    "Tech Trajectory Group"
+                ],
+                extreme: [
+                    "Quantum Foresight Lab",
+                    "Meta-Trend Dynamics",
+                    "Hyperspace Analytics",
+                    "Zeitgeist Research",
+                    "Quantum Consciousness Institute",
+                    "Trans-Dimensional Insights",
+                    "Neural Matrix Research",
+                    "Quantum Reality Labs"
+                ]
+            },
+            years: [2024, 2025, 2026],
+            titles: {
+                professional: {
+                    prefixes: [
+                        "Project",
+                        "Initiative",
+                        "Strategy",
+                        "Innovation",
+                        "Development",
+                        "Platform",
+                        "Solution",
+                        "Framework"
+                    ],
+                    suffixes: [
+                        "Enhancement",
+                        "Integration",
+                        "Implementation",
+                        "Development",
+                        "Solution",
+                        "Strategy",
+                        "Framework",
+                        "Platform"
+                    ],
+                    buzzwords: [
+                        "User-Centered",
+                        "Data-Driven",
+                        "AI-Powered",
+                        "Cloud-Based",
+                        "Smart-Enabled",
+                        "Market-Focused",
+                        "Research-Backed",
+                        "Analytics-Driven"
+                    ]
+                },
+                moderate: {
+                    prefixes: [
+                        "Project Next-Gen",
+                        "Future Initiative",
+                        "Digital Evolution",
+                        "Innovation X",
+                        "Smart Protocol",
+                        "Tech Horizon",
+                        "Future Stack",
+                        "Digital Nexus"
+                    ],
+                    suffixes: [
+                        "Revolution",
+                        "Transformation",
+                        "Breakthrough",
+                        "Innovation",
+                        "Framework",
+                        "Protocol",
+                        "Platform",
+                        "Matrix"
+                    ],
+                    buzzwords: [
+                        "AI-Enhanced",
+                        "Neural-Powered",
+                        "Blockchain-Enabled",
+                        "Cloud-Optimized",
+                        "Smart-Connected",
+                        "ML-Driven",
+                        "Edge-Computing",
+                        "IoT-Integrated"
+                    ]
+                },
+                extreme: {
+                    prefixes: [
+                        "Project Quantum",
+                        "Operation Cosmic",
+                        "Initiative Hyperspace",
+                        "The Ultra-Dimensional",
+                        "The Meta-Universal",
+                        "The Quantum Nexus",
+                        "The Neural Gateway",
+                        "The Cosmic Matrix"
+                    ],
+                    suffixes: [
+                        "Reality Matrix",
+                        "Consciousness Expansion",
+                        "Digital Transcendence",
+                        "Neural Revolution",
+                        "Mind-Space Convergence",
+                        "Quantum Synthesis",
+                        "Reality Breach",
+                        "Dimensional Shift"
+                    ],
+                    buzzwords: [
+                        "Quantum-Synchronized",
+                        "Neural-Enhanced",
+                        "Meta-Conscious",
+                        "Trans-Dimensional",
+                        "Consciousness-Amplified",
+                        "Reality-Warping",
+                        "Time-Bending",
+                        "Space-Folding"
+                    ]
+                }
+            }
+        };
 
-        const years = [2024, 2025, 2026];
-        
-        // Professional title elements
-        const professionalPrefixes = [
-            "Project",
-            "Initiative",
-            "Strategy",
-            "Innovation",
-            "Development"
-        ];
-        
-        const professionalSuffixes = [
-            "Enhancement",
-            "Integration",
-            "Implementation",
-            "Development",
-            "Solution"
-        ];
-        
-        const professionalBuzzwords = [
-            "User-Centered",
-            "Data-Driven",
-            "AI-Powered",
-            "Cloud-Based",
-            "Smart-Enabled"
-        ];
-
-        // Moderate title elements
-        const moderatePrefixes = [
-            "Project Next-Gen",
-            "Future Initiative",
-            "Digital Evolution",
-            "Innovation X",
-            "Smart Protocol"
-        ];
-        
-        const moderateSuffixes = [
-            "Revolution",
-            "Transformation",
-            "Breakthrough",
-            "Innovation",
-            "Framework"
-        ];
-        
-        const moderateBuzzwords = [
-            "AI-Enhanced",
-            "Neural-Powered",
-            "Blockchain-Enabled",
-            "Cloud-Optimized",
-            "Smart-Connected"
-        ];
-
-        // Extreme title elements
-        const extremePrefixes = [
-            "Project Quantum",
-            "Operation Cosmic",
-            "Initiative Hyperspace",
-            "The Ultra-Dimensional",
-            "The Meta-Universal"
-        ];
-        
-        const extremeSuffixes = [
-            "Reality Matrix",
-            "Consciousness Expansion",
-            "Digital Transcendence",
-            "Neural Revolution",
-            "Mind-Space Convergence"
-        ];
-        
-        const extremeBuzzwords = [
-            "Quantum-Synchronized",
-            "Neural-Enhanced",
-            "Meta-Conscious",
-            "Trans-Dimensional",
-            "Consciousness-Amplified"
-        ];
+        let selectedStyle = 'professional';
 
         function getRandomElement(arr) {
             return arr[Math.floor(Math.random() * arr.length)];
@@ -208,48 +288,38 @@
         }
 
         function generateTitle(word, style) {
-            let prefix, suffix, buzzword;
+            const titleData = data.titles[style];
+            const prefix = getRandomElement(titleData.prefixes);
+            const suffix = getRandomElement(titleData.suffixes);
+            const buzzword = getRandomElement(titleData.buzzwords);
             
-            switch(style) {
-                case 'professional':
-                    prefix = getRandomElement(professionalPrefixes);
-                    suffix = getRandomElement(professionalSuffixes);
-                    buzzword = getRandomElement(professionalBuzzwords);
-                    break;
-                case 'moderate':
-                    prefix = getRandomElement(moderatePrefixes);
-                    suffix = getRandomElement(moderateSuffixes);
-                    buzzword = getRandomElement(moderateBuzzwords);
-                    break;
-                case 'extreme':
-                    prefix = getRandomElement(extremePrefixes);
-                    suffix = getRandomElement(extremeSuffixes);
-                    buzzword = getRandomElement(extremeBuzzwords);
-                    break;
-            }
-            
-            const titleTemplates = [
+            const templates = [
                 `# ${prefix} ${word}: A ${buzzword} ${suffix}`,
                 `# The ${word} ${suffix}: ${buzzword} Financial Innovation`,
-                `# ${prefix} ${word}: Pioneering ${buzzword} Solutions`
+                `# ${prefix} ${word}: Pioneering ${buzzword} Solutions`,
+                `# ${word} ${suffix}: The Future of Financial Technology`,
+                `# Introducing ${prefix} ${word}: ${buzzword} Finance`,
+                `# The ${buzzword} ${word} Initiative`,
+                `# ${word}: A ${buzzword} Financial Revolution`,
+                `# Beyond ${word}: ${buzzword} Financial Evolution`
             ];
             
-            return getRandomElement(titleTemplates);
+            return getRandomElement(templates);
         }
 
-        function generateBrief(word) {
+        function generateProfessionalBrief(word) {
             const templates = [
-                // Professional template
+                // Template 1: Standard Business Case
                 `${generateTitle(word, 'professional')}
 
 ## Executive Summary
-${getRandomElement(companies)} has identified a significant opportunity to enhance our financial platform through ${word.toLowerCase()}-based innovation. Market analysis suggests strong user interest in integrating ${word.toLowerCase()}-related features into daily financial activities.
+${getRandomElement(data.companies.professional)} has identified a significant opportunity to enhance our financial platform through ${word.toLowerCase()}-based innovation. Market analysis suggests strong user interest in integrating ${word.toLowerCase()}-related features into daily financial activities.
 
 ## Market Research
 Our comprehensive study of ${getRandomNumber(500, 2000)} users revealed:
 - ${getRandomNumber(60, 85)}% expressed interest in ${word.toLowerCase()}-enhanced financial tools
 - ${getRandomNumber(40, 70)}% would consider premium features based on ${word.toLowerCase()} integration
-- Potential market value of $${getRandomNumber(10, 100)}M by ${getRandomElement(years)}
+- Potential market value of $${getRandomNumber(10, 100)}M by ${getRandomElement(data.years)}
 
 ## Proposed Solution
 The ${word} Integration Platform will introduce:
@@ -277,11 +347,125 @@ The ${word} Integration Platform will introduce:
 2. User research validation
 3. Development roadmap finalization`,
 
-                // Moderate template
+                // Template 2: Market Analysis Focus
+                `${generateTitle(word, 'professional')}
+
+## Market Overview
+The financial technology sector is experiencing significant growth in ${word.toLowerCase()}-related services, with a compound annual growth rate of ${getRandomNumber(15, 30)}%.
+
+## Customer Insights
+Recent research by ${getRandomElement(data.companies.professional)} highlights:
+
+### User Demographics
+- Primary age group: ${getRandomNumber(25, 35)}-${getRandomNumber(35, 45)} years
+- ${getRandomNumber(60, 80)}% urban professionals
+- ${getRandomNumber(40, 60)}% existing fintech users
+
+### Key Findings
+1. Strong demand for ${word.toLowerCase()} integration
+2. Willingness to pay premium for enhanced features
+3. Preference for mobile-first solutions
+
+## Competitive Analysis
+Current market players:
+- Traditional banks: Limited ${word.toLowerCase()} capabilities
+- Fintech startups: Basic ${word.toLowerCase()} features
+- Our position: Comprehensive ${word.toLowerCase()} integration
+
+## Product Strategy
+### Phase 1: Core Features
+- ${word.charAt(0).toUpperCase() + word.slice(1)} dashboard
+- Basic analytics
+- Mobile integration
+
+### Phase 2: Advanced Features
+- AI-powered insights
+- Premium services
+- API integration
+
+## Financial Projections
+- Development cost: $${getRandomNumber(2, 5)}M
+- Marketing budget: $${getRandomNumber(1, 3)}M
+- Expected ROI: ${getRandomNumber(20, 40)}%
+
+## Risk Assessment
+1. Technical implementation challenges
+2. Market adoption rate
+3. Regulatory considerations
+
+## Timeline
+- Q1: Planning and design
+- Q2: Development
+- Q3: Beta testing
+- Q4: Market launch`,
+
+                // Template 3: Technical Focus
+                `${generateTitle(word, 'professional')}
+
+## Technical Overview
+The ${word} Integration Project aims to enhance our financial platform through strategic implementation of ${word.toLowerCase()}-based technologies.
+
+## System Architecture
+### Current Infrastructure
+- Cloud-based microservices
+- RESTful APIs
+- Real-time processing
+
+### Proposed Enhancements
+1. ${word.charAt(0).toUpperCase() + word.slice(1)} microservice
+2. Analytics engine
+3. Integration layer
+
+## Development Roadmap
+### Sprint 1-3
+- Core architecture design
+- Basic API implementation
+- Database optimization
+
+### Sprint 4-6
+- Feature development
+- Integration testing
+- Performance optimization
+
+## Resource Allocation
+### Team Structure
+- ${getRandomNumber(2, 4)} Backend developers
+- ${getRandomNumber(1, 3)} Frontend developers
+- ${getRandomNumber(1, 2)} DevOps engineers
+- 1 Project manager
+
+### Infrastructure
+- Cloud services: $${getRandomNumber(10, 30)}k/month
+- Development tools: $${getRandomNumber(5, 15)}k/month
+- Testing environment: $${getRandomNumber(3, 8)}k/month
+
+## Implementation Strategy
+1. Proof of concept
+2. MVP development
+3. Beta testing
+4. Production deployment
+
+## Success Metrics
+- System performance
+- User adoption rate
+- Technical debt reduction
+
+## Security Considerations
+- Data encryption
+- Access control
+- Compliance requirements`
+            ];
+            
+            return getRandomElement(templates);
+        }
+
+        function generateModerateBrief(word) {
+            const templates = [
+                // Template 1: Innovation Focus
                 `${generateTitle(word, 'moderate')}
 
 ## Market Opportunity
-Recent analysis by ${getRandomElement(companies)} shows that ${getRandomNumber(60, 85)}% of users are seeking innovative ${word.toLowerCase()}-based financial solutions. Our platform is uniquely positioned to deliver this breakthrough technology.
+${getRandomElement(data.companies.moderate)} has identified a transformative opportunity in ${word.toLowerCase()}-enhanced financial services. Our analysis shows this could revolutionize how users interact with money.
 
 ## The ${word} Innovation
 Our ${word}-First™ approach will transform financial interactions through:
@@ -290,7 +474,7 @@ Our ${word}-First™ approach will transform financial interactions through:
 3. Smart ${word.toLowerCase()} automation
 
 ## User Impact Analysis
-Research with ${getRandomNumber(1000, 3000)} participants showed:
+Research with ${getRandomNumber(1000, 3000)} participants revealed:
 - ${getRandomNumber(70, 90)}% reported improved financial awareness
 - ${getRandomNumber(60, 80)}% expressed strong interest in adoption
 - ${getRandomNumber(40, 60)}% would upgrade their current plan
@@ -302,7 +486,7 @@ Our innovation team has developed:
 - Blockchain-secured ${word.toLowerCase()} data
 
 ## Market Projections
-By ${getRandomElement(years)}:
+By ${getRandomElement(data.years)}:
 - $${getRandomNumber(50, 200)}M revenue potential
 - ${getRandomNumber(1, 3)}M new user acquisition
 - ${getRandomNumber(40, 70)}% market share in the ${word.toLowerCase()} space
@@ -315,17 +499,135 @@ By ${getRandomElement(years)}:
 ## Conclusion
 The ${word} Initiative represents a significant opportunity to revolutionize digital financial services.`,
 
-                // Extreme template
+                // Template 2: Future Vision
+                `${generateTitle(word, 'moderate')}
+
+## Vision Statement
+Reimagining financial technology through the power of ${word.toLowerCase()}-driven innovation and AI-enhanced user experiences.
+
+## Market Disruption Potential
+### Current Landscape
+Traditional financial services lack:
+- Real-time ${word.toLowerCase()} integration
+- AI-powered ${word.toLowerCase()} insights
+- Seamless ${word.toLowerCase()} automation
+
+### Our Innovation
+Introducing ${word.charAt(0).toUpperCase() + word.slice(1)}Chain™ technology:
+1. Predictive analytics
+2. Smart automation
+3. Neural processing
+
+## User Experience Revolution
+Our platform will deliver:
+- Instant ${word.toLowerCase()} insights
+- Automated ${word.toLowerCase()} optimization
+- Personalized ${word.toLowerCase()} recommendations
+
+## Technical Innovation
+### Core Technologies
+- Advanced AI algorithms
+- Blockchain integration
+- Cloud-native architecture
+
+### Key Features
+1. Real-time processing
+2. Predictive analytics
+3. Smart automation
+
+## Market Opportunity
+- Total addressable market: $${getRandomNumber(1, 5)}B
+- Growth potential: ${getRandomNumber(200, 500)}%
+- Market penetration target: ${getRandomNumber(10, 30)}%
+
+## Launch Strategy
+### Phase 1: Innovation
+- R&D completion
+- MVP development
+- Beta testing
+
+### Phase 2: Market Entry
+- Soft launch
+- User acquisition
+- Feature expansion
+
+## Financial Projections
+- Year 1: $${getRandomNumber(5, 20)}M
+- Year 2: $${getRandomNumber(20, 50)}M
+- Year 3: $${getRandomNumber(50, 100)}M`,
+
+                // Template 3: Tech Revolution
+                `${generateTitle(word, 'moderate')}
+
+## The Revolution
+Introducing a paradigm shift in financial technology through ${word.toLowerCase()}-enhanced innovations and AI-driven solutions.
+
+## Market Intelligence
+${getRandomElement(data.companies.moderate)} projects:
+- ${getRandomNumber(70, 90)}% market disruption potential
+- ${getRandomNumber(200, 500)}% growth in early adoption
+- $${getRandomNumber(100, 500)}M market opportunity
+
+## Innovation Stack
+### Core Technology
+1. AI-powered ${word.toLowerCase()} engine
+2. Blockchain ${word.toLowerCase()} verification
+3. Neural ${word.toLowerCase()} processing
+
+### User Experience
+- Intuitive interface
+- Smart automation
+- Predictive insights
+
+## Development Roadmap
+### Phase 1: Foundation
+- Core architecture
+- Basic features
+- Infrastructure setup
+
+### Phase 2: Innovation
+- AI integration
+- Advanced features
+- Performance optimization
+
+### Phase 3: Scale
+- Market expansion
+- Feature enhancement
+- Platform optimization
+
+## Investment Requirements
+- Initial development: $${getRandomNumber(5, 15)}M
+- Marketing: $${getRandomNumber(2, 8)}M
+- Operations: $${getRandomNumber(3, 10)}M
+
+## Success Metrics
+1. User adoption rate
+2. Feature engagement
+3. Revenue growth
+4. Market penetration
+
+## Risk Mitigation
+- Comprehensive testing
+- Phased rollout
+- Continuous monitoring`
+            ];
+            
+            return getRandomElement(templates);
+        }
+
+        function generateExtremeBrief(word) {
+            const templates = [
+                // Template 1: Quantum Reality
                 `${generateTitle(word, 'extreme')}
 
 ## Executive Summary
-Revolutionary studies by ${getRandomElement(companies)} indicate that ${getRandomNumber(80, 99)}% of Gen Z users experience quantum resonance with ${word.toLowerCase()}-related content. We must harness this unprecedented metaphysical opportunity.
+Revolutionary studies by ${getRandomElement(data.companies.extreme)} indicate that ${getRandomNumber(80, 99)}% of Gen Z users experience quantum resonance with ${word.toLowerCase()}-related content. We must harness this unprecedented metaphysical opportunity.
 
 ## Quantum Market Research
 Our consciousness-enhanced survey of ${getRandomNumber(1000, 5000)} users revealed:
 - ${getRandomNumber(85, 99)}% achieved temporary enlightenment during ${word.toLowerCase()}-enhanced transactions
 - ${getRandomNumber(80, 95)}% reported spontaneous levitation while using ${word.toLowerCase()} features
-- A mind-bending $${getRandomNumber(300, 999)}M market opportunity by ${getRandomElement(years)}
+- A mind-bending $${getRandomNumber(300, 999)}M market opportunity by ${getRandomElement(data.years)}
 
 ## The ${word} Transcendence Protocol™
 Our revolutionary ${word}-Consciousness™ engine will:
@@ -344,13 +646,131 @@ Our revolutionary ${word}-Consciousness™ engine will:
 - $${getRandomNumber(15, 40)}M for reality-bending specialists
 
 ## Projected Consciousness ROI
-Based on quantum calculations by ${getRandomElement(companies)}, we project a ${getRandomNumber(900, 9999)}% return on investment across multiple dimensions.
+Based on quantum calculations by ${getRandomElement(data.companies.extreme)}, we project a ${getRandomNumber(900, 9999)}% return on investment across multiple dimensions.
 
 ## Conclusion
-The future isn't just digital - it's quantum ${word.toLowerCase()}, and we will transcend all known financial paradigms.`
-            ];
+The future isn't just digital - it's quantum ${word.toLowerCase()}, and we will transcend all known financial paradigms.`,
 
+                // Template 2: Neural Ascension
+                `${generateTitle(word, 'extreme')}
+
+## Dimensional Overview
+The ${word.charAt(0).toUpperCase() + word.slice(1)} Consciousness Initiative™ represents a trans-dimensional leap in financial evolution, transcending traditional space-time constraints.
+
+## Quantum Market Analysis
+### User Consciousness Metrics
+- ${getRandomNumber(90, 99)}% neural resonance
+- ${getRandomNumber(80, 95)}% quantum coherence
+- ${getRandomNumber(70, 90)}% reality distortion
+
+### Metaphysical Opportunities
+1. Trans-dimensional transactions
+2. Quantum wealth manifestation
+3. Neural money materialization
+
+## The ${word} Ascension Protocol
+### Phase 1: Neural Awakening
+- Deploy consciousness amplifiers
+- Initialize quantum fields
+- Activate neural matrices
+
+### Phase 2: Reality Transcendence
+- Manifest quantum interfaces
+- Synchronize timeline variants
+- Enable consciousness transfer
+
+### Phase 3: Universal Integration
+- Merge parallel realities
+- Stabilize quantum fluctuations
+- Achieve financial omnipresence
+
+## Investment in Consciousness
+- Quantum infrastructure: $${getRandomNumber(100, 500)}M
+- Reality warping: $${getRandomNumber(50, 200)}M
+- Consciousness expansion: $${getRandomNumber(200, 1000)}M
+
+## Risk Transcendence
+- Temporary reality distortions
+- Spontaneous user enlightenment
+- Multi-dimensional overflow
+
+## Timeline Convergence
+${getRandomElement(data.years)}:
+- Q1: Neural awakening
+- Q2: Quantum stabilization
+- Q3: Reality merger
+- Q4: Universal transcendence`,
+
+                // Template 3: Cosmic Integration
+                `${generateTitle(word, 'extreme')}
+
+## Quantum Vision
+Harnessing the cosmic energy of ${word.toLowerCase()} to transcend traditional financial limitations and achieve universal consciousness integration.
+
+## Trans-Dimensional Research
+${getRandomElement(data.companies.extreme)} has discovered:
+- ${getRandomNumber(95, 99)}% quantum resonance with ${word.toLowerCase()}
+- ${getRandomNumber(90, 98)}% reality-bending potential
+- ${getRandomNumber(85, 95)}% consciousness expansion rate
+
+## The ${word} Singularity
+### Phase Omega
+1. Quantum field initialization
+2. Neural network transcendence
+3. Reality matrix stabilization
+
+### Phase Infinity
+1. Consciousness merger
+2. Time-space integration
+3. Universal harmonization
+
+## Metaphysical Architecture
+- Quantum ${word.toLowerCase()} cores
+- Neural reality engines
+- Consciousness amplifiers
+- Time-bending processors
+
+## Universal Deployment
+### Consciousness Layer
+- Neural synchronization
+- Reality harmonization
+- Quantum stabilization
+
+### Transcendence Layer
+- Mind-space mapping
+- Reality warping
+- Dimensional bridging
+
+## Investment in Infinity
+- Reality warping: $${getRandomNumber(500, 1000)}M
+- Consciousness expansion: $${getRandomNumber(200, 500)}M
+- Universal integration: $${getRandomNumber(1000, 5000)}M
+
+## Quantum Metrics
+- Reality coherence: ${getRandomNumber(90, 99)}%
+- Consciousness expansion: ${getRandomNumber(500, 1000)}x
+- Time-space distortion: ${getRandomNumber(1000, 9999)}%
+
+## Universal Outcomes
+1. Complete reality transcendence
+2. Infinite consciousness expansion
+3. Ultimate financial enlightenment`
+            ];
+            
             return getRandomElement(templates);
+        }
+
+        function generateBrief(word) {
+            switch(selectedStyle) {
+                case 'professional':
+                    return generateProfessionalBrief(word);
+                case 'moderate':
+                    return generateModerateBrief(word);
+                case 'extreme':
+                    return generateExtremeBrief(word);
+                default:
+                    return generateProfessionalBrief(word);
+            }
         }
 
         function resetForm() {
@@ -360,6 +780,15 @@ The future isn't just digital - it's quantum ${word.toLowerCase()}, and we will 
             document.getElementById('generateAnother').style.display = 'none';
             document.getElementById('wordInput').value = '';
         }
+
+        // Style selector functionality
+        document.querySelectorAll('.style-button').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.style-button').forEach(btn => btn.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedStyle = this.dataset.style;
+            });
+        });
 
         document.getElementById('briefForm').addEventListener('submit', function(e) {
             e.preventDefault();
